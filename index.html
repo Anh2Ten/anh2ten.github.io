@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đức Anh</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style> 
+        .backdrop {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        .avatar {
+            width: 100px;  
+            height: 100px;  
+            position: relative;  
+        }
+        .check-icon {
+            color: #3b82f6; 
+            font-size: 18px; 
+            margin-left: 4px;  
+        }
+    </style>        
+</head>
+
+<body class="bg-dark-100 flex items-center justify-center min-h-screen">
+    <div class="backdrop rounded-lg shadow-lg p-8 max-w-md w-full">
+        <div class="flex items-center justify-center mb-4">
+            <img src="https://i.imgur.com/BmITHxJ.jpeg" alt="Ảnh đại diện" class="avatar rounded-full border-2 border-blue-500">
+        </div>
+        <h1 class="text-center text-2xl font-bold text-gray-800 flex items-center justify-center">
+            Xin chào, tớ là Đức Anh
+            <span class="check-icon">
+                <i class="fas fa-check-circle"></i>
+            </span>
+        </h1>
+        <p class="text-center text-gray-600 mt-2">Nói ít làm liều!</p>
+
+        <div class="text-center mt-4">
+            <h3 class="text-lg font-semibold text-gray-800">Thông tin liên hệ</h3>
+            <div class="flex flex-col mt-4">
+                <a href="mailto:hotro@dailythuonghien.com" class="inline-flex items-center bg-blue-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-blue-600">
+                    <i class="fas fa-envelope mr-2"></i> Email
+                </a>
+                <a href="tel:0343928899" class="inline-flex items-center bg-green-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-green-600">
+                    <i class="fas fa-phone mr-2"></i> Gọi Ngay
+                </a>
+                <a href="https://maps.app.goo.gl/49zSEG3aLHg6iBcd8" class="inline-flex items-center bg-indigo-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-indigo-600" target="_blank">
+                    <i class="fas fa-map-marker-alt mr-2"></i> Xem Địa Chỉ
+                </a>
+                <button id="copyPhone" class="inline-flex items-center bg-yellow-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-yellow-600">
+                    <i class="fas fa-copy mr-2"></i> 0343.92.8899
+                </button>
+                <button id="copyAccount" class="inline-flex items-center bg-purple-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-purple-600">
+                    <i class="fas fa-copy mr-2"></i> MB BANK: 7788.65.2005
+                </button>
+                <button id="openQR" class="inline-flex items-center bg-gray-500 text-white rounded-lg px-4 py-2 transition duration-300 hover:bg-gray-600">
+                    <i class="fas fa-qrcode mr-2"></i> QR Thanh Toán
+                </button> 
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const phoneNumber = '0343928899';
+        const accountNumber = '7788652005';  
+
+        document.getElementById('copyPhone').addEventListener('click', function () {
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                Swal.fire('Sao chép thành công!', `Số điện thoại: ${phoneNumber}`, 'success');
+            });
+        });
+
+        document.getElementById('copyAccount').addEventListener('click', function () {
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                Swal.fire('Sao chép thành công! MB Bank', `Số tài khoản: ${accountNumber}`, 'success');
+            });
+        });
+
+        document.getElementById('openQR').addEventListener('click', function () {
+            Swal.fire({
+                title: 'QR Thanh Toán',
+                html: '<img src="https://i.imgur.com/GexSeEs.jpeg" alt="QR Thanh Toán" style="width:100%; max-width:300px;">',
+                showCloseButton: true,
+                confirmButtonText: 'Đóng',
+            });
+        });
+    </script>    
+    
+    <style>
+        body{
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        }
+        </style>
+        <script type=”text/JavaScript”>
+        function killCopy(e){
+        return false
+        }
+        function reEnable(){
+        return true
+        }
+        document.onselectstart=new Function (“return false”)
+        if (window.sidebar){
+        document.onmousedown=killCopy
+        document.onclick=reEnable
+        }
+        </script>
+        <script language="JavaScript">
+            window.onload = function() {
+                document.addEventListener("contextmenu", function(e) {
+                    e.preventDefault();
+                }, false);
+                document.addEventListener("keydown", function(e) {
+                    //document.onkeydown = function(e) {
+                    // "I" key
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                        disabledEvent(e);
+                    }
+                    // "J" key
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+                        disabledEvent(e);
+                    }
+                    // "S" key + macOS
+                    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                        disabledEvent(e);
+                    }
+                    // "U" key
+                    if (e.ctrlKey && e.keyCode == 85) {
+                        disabledEvent(e);
+                    }
+                    // "F12" key
+                    if (event.keyCode == 123) {
+                        disabledEvent(e);
+                    }
+                }, false);
+         
+                function disabledEvent(e) {
+                    if (e.stopPropagation) {
+                        e.stopPropagation();
+                    } else if (window.event) {
+                        window.event.cancelBubble = true;
+                    }
+                    e.preventDefault();
+                    return false;
+                }
+            };
+        </script>    
+</body>
+
+</html>

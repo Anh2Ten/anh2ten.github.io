@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xin chào, tớ là bhs đáng yêu</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG0MPPSMLT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG0MPPSMLT');
+</script>
+    <style> 
+        .backdrop {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        .avatar {
+            width: 100px;  
+            height: 100px;  
+            position: relative;  
+        }
+        .check-icon {
+            color: #3b82f6; 
+            font-size: 18px; 
+            margin-left: 4px;  
+        }
+    </style>        
+</head>
+
+<body class="bg-dark-100 flex items-center justify-center min-h-screen">
+    <div class="backdrop rounded-lg shadow-lg p-8 max-w-md w-full">
+        <div class="flex items-center justify-center mb-4">
+            <img src="https://i.imgur.com/T804BNL.jpeg" alt="Ảnh đại diện" class="avatar rounded-full border-2 border-blue-500">
+        </div>
+        <h1 class="text-center text-2xl font-bold text-gray-800 flex items-center justify-center">
+            Xin chào, tớ là bhs đáng yêu 😋
+            <span class="check-icon">
+                <i class="fas fa-check-circle"></i>
+            </span>
+        </h1>
+        <p class="text-center text-gray-600 mt-2">Nói ít làm liều!</p>
+
+        <div class="text-center mt-4">
+            <h3 class="text-lg font-semibold text-gray-800">Thông tin liên hệ</h3>
+            <div class="flex flex-col mt-4"> 
+                <a href="tel:0812938569" class="inline-flex items-center bg-green-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-green-600">
+                    <i class="fas fa-phone mr-2"></i> Gọi Ngay
+                </a> 
+                <button id="copyPhone" class="inline-flex items-center bg-yellow-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-yellow-600">
+                    <i class="fas fa-copy mr-2"></i> 0812.938.569
+                </button> 
+                <a href="https://www.instagram.com/urfav.bhszz/profilecard/?igsh=NmplYWVvcnhwcHV6" class="inline-flex items-center bg-indigo-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-indigo-600" target="_blank">
+                    <i class="fa-brands fa-instagram mr-2"></i> INSTAGRAM
+                </a>
+                <a href="https://locket.camera/links/vBG4TKFpEysJbfrz9" class="inline-flex items-center bg-red-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-red-600" target="_blank">
+                    <i class="fa-solid fa-lock mr-2"></i> ADD LOCKET
+                </a>
+                <a href="https://web.facebook.com/ngyeu.pcy" class="inline-flex items-center bg-gray-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-gray-600" target="_blank">
+                    <i class="fa-brands fa-facebook mr-2"></i> FACEBOOK
+                </a>
+                <a href="https://www.tiktok.com/@bhs_.02?_r=1&_d=secCgYIASAHKAESPgo80kDmSdcFxli827FSZyLjHiy9k5J15WS1jDi5oy4wccWYDOACt1gGn%2FZtdjVIS%2B5sARFckwKtwFqasWpYGgA%3D&checksum=c9866e426600d300846683fd83ad624d31b09c6c801c83d4d60e282a30de8723&sec_uid=MS4wLjABAAAAirlS4yRag1qmq6eUghtjIAxFq_4YvBOaSp0U1qIltAXcb2V1f76y5SNrrmjJCBf0&sec_user_id=MS4wLjABAAAAirlS4yRag1qmq6eUghtjIAxFq_4YvBOaSp0U1qIltAXcb2V1f76y5SNrrmjJCBf0&share_app_id=1180&share_author_id=7349986647670604802&share_link_id=1EAC387C-47BA-437F-9F2E-3E7B5DD2CF9C&sharer_language=vi&social_share_type=4&source=h5_t&timestamp=1730465234&tt_from=copy&u_code=ed906haj93c871&ug_btm=b8727%2Cb0&user_id=7349986647670604802&utm_campaign=client_share&utm_medium=ios&utm_source=copy" class="inline-flex items-center bg-indigo-500 text-white rounded-lg px-4 py-2 mb-2 transition duration-300 hover:bg-indigo-600" target="_blank">
+                    <i class="fa-brands fa-tiktok mr-2"></i> TikTok
+                </a>
+            </div>
+        </div>
+    </div>
+ 
+    
+    <style>
+        body{
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        }
+        </style>
+        <script type=”text/JavaScript”>
+        function killCopy(e){
+        return false
+        }
+        function reEnable(){
+        return true
+        }
+        document.onselectstart=new Function (“return false”)
+        if (window.sidebar){
+        document.onmousedown=killCopy
+        document.onclick=reEnable
+        }
+        </script>
+        <script language="JavaScript">
+            window.onload = function() {
+                document.addEventListener("contextmenu", function(e) {
+                    e.preventDefault();
+                }, false);
+                document.addEventListener("keydown", function(e) {
+                    //document.onkeydown = function(e) {
+                    // "I" key
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                        disabledEvent(e);
+                    }
+                    // "J" key
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+                        disabledEvent(e);
+                    }
+                    // "S" key + macOS
+                    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                        disabledEvent(e);
+                    }
+                    // "U" key
+                    if (e.ctrlKey && e.keyCode == 85) {
+                        disabledEvent(e);
+                    }
+                    // "F12" key
+                    if (event.keyCode == 123) {
+                        disabledEvent(e);
+                    }
+                }, false);
+         
+                function disabledEvent(e) {
+                    if (e.stopPropagation) {
+                        e.stopPropagation();
+                    } else if (window.event) {
+                        window.event.cancelBubble = true;
+                    }
+                    e.preventDefault();
+                    return false;
+                }
+            };
+        </script>    
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eine kleine Nachtmusik</title> 
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(180deg, #071025 0%, #071840 70%);
+      color: #e9f2ff;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      padding: 2rem;
+    }
+    .container { max-width: 960px; }
+    .header { text-align: center; margin-bottom: 1.5rem; }
+    .header h1 { font-size: 1.6rem; font-weight: 700; }
+    .header p { color: #bcd3f7; }
+
+    .player-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+      margin-bottom: 2rem;
+    }
+
+    .sheet-thumb {
+      display: block;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: 0 8px 30px rgba(2,8,20,0.6);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sheet-thumb:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+
+    .footer {
+      text-align: center;
+      color: #9fb4dd;
+      opacity: .8;
+      margin-top: 2rem;
+    }
+ 
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .popup-overlay.active {
+      display: flex;
+    }
+    .popup-content img {
+      max-width: 95%;
+      max-height: 85vh;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    }
+    .popup-credit {
+      position: absolute;
+      bottom: 20px;
+      color: #dbe9ff;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Eine kleine Nachtmusik – K.525</h1>
+      <p>I. Allegro · Wolfgang Amadeus Mozart
+     <br>Web được làm bởi Lê Anh – 0343.92.8899</p>
+    </div>
+
+    <div class="player-card">
+      <iframe style="border-radius:12px" 
+        src="https://open.spotify.com/embed/track/4KLVPRo0f6XUJa4t4dnRW6?utm_source=generator&theme=1"
+        width="100%" height="352" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"></iframe>
+    </div>
+
+    <img id="sheetImg" 
+      src="https://toplayalong.com/wp-content/uploads/2016/08/291-mozart-allegro-eine-kleine-nachtmusik-violin-0.png"
+      alt="Mozart - Eine kleine Nachtmusik sheet"
+      class="sheet-thumb" />
+
+    <div class="footer">Web được làm bởi <strong>Lê Anh</strong> – Sapasoftware Phần Mềm Quản Lý Bán Hàng</div>
+  </div>
+ 
+  <div id="popup" class="popup-overlay">
+    <div class="popup-content">
+      <img src="https://toplayalong.com/wp-content/uploads/2016/08/291-mozart-allegro-eine-kleine-nachtmusik-violin-0.png" alt="Sheet lớn" />
+      <div class="popup-credit">Web được làm bởi Lê Anh - Sapasoftware Phần Mềm Quản Lý Bán Hàng</div>
+    </div>
+  </div>
+<script> 
+    const popup = document.getElementById('popup');
+    const sheetImg = document.getElementById('sheetImg'); 
+    sheetImg.addEventListener('click', () => {
+      popup.classList.add('active');
+    }); 
+    popup.addEventListener('click', () => {
+      popup.classList.remove('active');
+    });
+  </script>
+</body>
+</html>

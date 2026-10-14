@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đồng hồ đếm ngược · Canva embed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 30% 20%, #1a2639, #0b0f17);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      padding: 1rem;
+    }
+    .timer-container {
+      --bg-card: rgba(20, 30, 45, 0.75);
+      --border-glow: rgba(120, 180, 255, 0.3);
+      --accent: #6ec8ff;
+      --text-primary: #f0f6ff;
+      --text-dim: #8a9bb5;
+      --digit-bg: rgba(0, 0, 0, 0.35);
+      --digit-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 3.5rem;
+      padding: 3rem 4rem;
+      box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border-glow), 0 0 40px -10px var(--accent);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: all 0.2s ease;
+      width: fit-content;
+      max-width: 95vw;
+    }
+    .timer {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.5rem 1.2rem;
+      flex-wrap: wrap;
+      direction: ltr;
+    }
+    .time-block {
+      display: flex;
+      align-items: baseline;
+      gap: 0.3rem;
+    }
+    .digit-group {
+      display: flex;
+      gap: 0.2rem;
+      background: var(--digit-bg);
+      padding: 0.5rem 0.8rem;
+      border-radius: 1.5rem;
+      box-shadow: var(--digit-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .digit {
+      font-size: clamp(3.5rem, 15vw, 6rem);
+      font-weight: 700;
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+      color: var(--text-primary);
+      text-shadow: 0 0 15px var(--accent), 0 0 5px rgba(255, 255, 255, 0.5);
+      line-height: 1;
+      letter-spacing: 2px;
+      min-width: 1.2em;
+      text-align: center;
+      transition: color 0.2s;
+    }
+    .label {
+      font-size: clamp(0.9rem, 4vw, 1.4rem);
+      font-weight: 500;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-left: 0.2rem;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .separator {
+      font-size: clamp(3rem, 12vw, 5rem);
+      font-weight: 300;
+      color: var(--accent);
+      opacity: 0.7;
+      text-shadow: 0 0 12px var(--accent);
+      line-height: 1;
+      margin: 0 0.1rem;
+    }
+    .expired-message {
+      font-size: clamp(1.8rem, 8vw, 3.5rem);
+      font-weight: 700;
+      color: #ffb86b;
+      text-shadow: 0 0 20px rgba(255, 150, 50, 0.7);
+      letter-spacing: 4px;
+      text-align: center;
+      padding: 1rem 2rem;
+    }
+    .customizer-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(30, 40, 60, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #d0e2ff;
+      border-radius: 60px;
+      padding: 12px 22px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s;
+      z-index: 999;
+      font-family: 'Inter', sans-serif;
+    }
+    .customizer-btn:hover {
+      background: rgba(50, 70, 100, 0.9);
+      border-color: var(--accent);
+      color: white;
+      box-shadow: 0 0 20px rgba(110, 200, 255, 0.3);
+    }
+    .customizer-panel {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: rgba(18, 26, 38, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(110, 200, 255, 0.25);
+      border-radius: 28px;
+      padding: 1.8rem 1.8rem 1.5rem;
+      width: 300px;
+      box-shadow: 0 30px 50px -10px black, 0 0 30px -5px var(--accent);
+      display: none;
+      flex-direction: column;
+      gap: 1.4rem;
+      z-index: 1000;
+      font-family: 'Inter', sans-serif;
+      color: #eef4ff;
+      transition: opacity 0.2s;
+    }
+    .customizer-panel.active {
+      display: flex;
+    }
+    .customizer-panel h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #b8d4ff;
+      margin-bottom: 0.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .customizer-panel h3 span {
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+      color: #8a9bb5;
+    }
+    .customizer-panel h3 span:hover {
+      color: white;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .control-group label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #8a9bb5;
+      font-weight: 600;
+    }
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .color-row input[type="color"] {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      background: transparent;
+      cursor: pointer;
+      padding: 2px;
+    }
+    .color-row input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    .color-row input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+    .color-row input[type="text"] {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: white;
+      font-family: 'Inter', monospace;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .color-row input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+    .customizer-panel button {
+      background: var(--accent);
+      border: none;
+      border-radius: 40px;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0b0f17;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+    .customizer-panel button:hover {
+      filter: brightness(1.2);
+      box-shadow: 0 0 20px var(--accent);
+    }
+    .customizer-panel .reset-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #b0c4de;
+      margin-top: 0;
+    }
+    .customizer-panel .reset-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: none;
+      border-color: var(--accent);
+      color: white;
+    }
+    .note {
+      font-size: 0.7rem;
+      color: #6a7c96;
+      text-align: center;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer-container" id="timerContainer">
+    <div class="timer" id="timerDisplay">
+      <div class="time-block">
+        <div class="digit-group">
+          <div class="digit" id="hoursTens">0</div>
+          <div class="digit" id="hoursOnes">0</div>
+        </div>
+        <span class="label">Giờ</span>
+      </div>
+      <span class="separator">:</span>
+      <div class="time-block">
+        <div class="digit-group">
+          <div class="digit" id="minutesTens">0</div>
+          <div class="digit" id="minutesOnes">0</div>
+        </div>
+        <span class="label">Phút</span>
+      </div>
+      <span class="separator">:</span>
+      <div class="time-block">
+        <div class="digit-group">
+          <div class="digit" id="secondsTens">0</div>
+          <div class="digit" id="secondsOnes">0</div>
+        </div>
+        <span class="label">Giây</span>
+      </div>
+    </div>
+    <div id="expiredBox" style="display: none;" class="expired-message">⏰ HẾT GIỜ</div>
+  </div>
+
+  <button class="customizer-btn" id="openCustomizer">🎨 Tùy chỉnh UI</button>
+
+  <div class="customizer-panel" id="customizerPanel">
+    <h3>🎛️ Tùy chỉnh giao diện <span id="closeCustomizer">✕</span></h3>
+    <div class="control-group">
+      <label>Màu nền thẻ</label>
+      <div class="color-row">
+        <input type="color" id="bgColor" value="#141e2d">
+        <input type="text" id="bgColorText" value="#141e2d">
+      </div>
+    </div>
+    <div class="control-group">
+      <label>Màu chữ số</label>
+      <div class="color-row">
+        <input type="color" id="digitColor" value="#f0f6ff">
+        <input type="text" id="digitColorText" value="#f0f6ff">
+      </div>
+    </div>
+    <div class="control-group">
+      <label>Màu nhấn (accent)</label>
+      <div class="color-row">
+        <input type="color" id="accentColor" value="#6ec8ff">
+        <input type="text" id="accentColorText" value="#6ec8ff">
+      </div>
+    </div>
+    <div class="control-group">
+      <label>Màu nhãn (Giờ/Phút/Giây)</label>
+      <div class="color-row">
+        <input type="color" id="labelColor" value="#8a9bb5">
+        <input type="text" id="labelColorText" value="#8a9bb5">
+      </div>
+    </div>
+    <button id="applyCustom">Áp dụng</button>
+    <button class="reset-btn" id="resetCustom">Mặc định</button>
+    <div class="note">Mọi thay đổi được lưu cục bộ</div>
+  </div>
+
+  <script>
+    (function() {
+      const timerContainer = document.getElementById('timerContainer');
+      const timerDisplay = document.getElementById('timerDisplay');
+      const expiredBox = document.getElementById('expiredBox');
+      
+      const hoursTens = document.getElementById('hoursTens');
+      const hoursOnes = document.getElementById('hoursOnes');
+      const minutesTens = document.getElementById('minutesTens');
+      const minutesOnes = document.getElementById('minutesOnes');
+      const secondsTens = document.getElementById('secondsTens');
+      const secondsOnes = document.getElementById('secondsOnes');
+
+      let totalSeconds = 0;
+      let timerInterval = null;
+      let isExpired = false;
+      let targetTime = null;
+
+      function parseTimeParam() {
+        const params = new URLSearchParams(window.location.search);
+        const timeParam = params.get('time');
+        if (!timeParam) return 60;
+
+        let seconds = 0;
+        if (timeParam.includes(':')) {
+          const parts = timeParam.split(':').map(Number);
+          if (parts.length === 3) {
+            seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+          } else if (parts.length === 2) {
+            seconds = parts[0] * 60 + parts[1];
+          } else if (parts.length === 1) {
+            seconds = parts[0];
+          }
+        } else {
+          seconds = Number(timeParam);
+        }
+        if (isNaN(seconds) || seconds <= 0) seconds = 60;
+        return Math.floor(seconds);
+      }
+
+      function formatTime(sec) {
+        const h = Math.floor(sec / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = sec % 60;
+        return { h, m, s };
+      }
+
+      function updateDisplay(sec) {
+        if (sec < 0) sec = 0;
+        const { h, m, s } = formatTime(sec);
+        const hT = Math.floor(h / 10);
+        const hO = h % 10;
+        const mT = Math.floor(m / 10);
+        const mO = m % 10;
+        const sT = Math.floor(s / 10);
+        const sO = s % 10;
+
+        hoursTens.textContent = hT;
+        hoursOnes.textContent = hO;
+        minutesTens.textContent = mT;
+        minutesOnes.textContent = mO;
+        secondsTens.textContent = sT;
+        secondsOnes.textContent = sO;
+      }
+
+      function showExpired() {
+        timerDisplay.style.display = 'none';
+        expiredBox.style.display = 'block';
+        isExpired = true;
+      }
+
+      function hideExpired() {
+        timerDisplay.style.display = 'flex';
+        expiredBox.style.display = 'none';
+        isExpired = false;
+      }
+
+      function stopTimer() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+      }
+
+      function startTimer(seconds) {
+        stopTimer();
+        hideExpired();
+        totalSeconds = seconds;
+        updateDisplay(totalSeconds);
+        
+        if (totalSeconds <= 0) {
+          showExpired();
+          return;
+        }
+
+        const startTime = Date.now();
+        const initialSeconds = totalSeconds;
+
+        timerInterval = setInterval(() => {
+          const elapsed = Math.floor((Date.now() - startTime) / 1000);
+          const remaining = initialSeconds - elapsed;
+          if (remaining <= 0) {
+            updateDisplay(0);
+            stopTimer();
+            showExpired();
+          } else {
+            updateDisplay(remaining);
+          }
+        }, 200);
+      }
+
+      const initialSeconds = parseTimeParam();
+      startTimer(initialSeconds);
+
+      const style = document.createElement('style');
+      style.id = 'dynamic-custom-style';
+      document.head.appendChild(style);
+
+      function applyCustomColors(bg, digit, accent, label) {
+        const container = document.getElementById('timerContainer');
+        container.style.setProperty('--bg-card', bg + 'cc');
+        container.style.setProperty('--accent', accent);
+        container.style.setProperty('--text-primary', digit);
+        container.style.setProperty('--text-dim', label);
+        container.style.setProperty('--digit-shadow', `0 8px 20px rgba(0,0,0,0.6), 0 0 0 1px ${accent}22`);
+        container.style.setProperty('--border-glow', accent + '55');
+        container.style.setProperty('--digit-bg', 'rgba(0,0,0,0.35)');
+        
+        document.querySelectorAll('.separator').forEach(el => {
+          el.style.color = accent;
+          el.style.textShadow = `0 0 12px ${accent}`;
+        });
+        document.querySelectorAll('.digit').forEach(el => {
+          el.style.color = digit;
+          el.style.textShadow = `0 0 15px ${accent}, 0 0 5px rgba(255,255,255,0.5)`;
+        });
+        document.querySelectorAll('.label').forEach(el => {
+          el.style.color = label;
+        });
+        const expired = document.querySelector('.expired-message');
+        if (expired) {
+          expired.style.color = accent;
+          expired.style.textShadow = `0 0 20px ${accent}cc`;
+        }
+      }
+
+      function loadCustomColors() {
+        const saved = localStorage.getItem('timerCustomColors');
+        if (saved) {
+          try {
+            const c = JSON.parse(saved);
+            applyCustomColors(c.bg, c.digit, c.accent, c.label);
+            document.getElementById('bgColor').value = c.bg;
+            document.getElementById('bgColorText').value = c.bg;
+            document.getElementById('digitColor').value = c.digit;
+            document.getElementById('digitColorText').value = c.digit;
+            document.getElementById('accentColor').value = c.accent;
+            document.getElementById('accentColorText').value = c.accent;
+            document.getElementById('labelColor').value = c.label;
+            document.getElementById('labelColorText').value = c.label;
+          } catch (e) {}
+        } else {
+          applyCustomColors('#141e2d', '#f0f6ff', '#6ec8ff', '#8a9bb5');
+        }
+      }
+
+      function saveCustomColors(bg, digit, accent, label) {
+        localStorage.setItem('timerCustomColors', JSON.stringify({ bg, digit, accent, label }));
+      }
+
+      loadCustomColors();
+
+      const customizerPanel = document.getElementById('customizerPanel');
+      document.getElementById('openCustomizer').addEventListener('click', () => {
+        customizerPanel.classList.toggle('active');
+      });
+      document.getElementById('closeCustomizer').addEventListener('click', () => {
+        customizerPanel.classList.remove('active');
+      });
+
+      const bgColorInput = document.getElementById('bgColor');
+      const bgColorText = document.getElementById('bgColorText');
+      const digitColorInput = document.getElementById('digitColor');
+      const digitColorText = document.getElementById('digitColorText');
+      const accentColorInput = document.getElementById('accentColor');
+      const accentColorText = document.getElementById('accentColorText');
+      const labelColorInput = document.getElementById('labelColor');
+      const labelColorText = document.getElementById('labelColorText');
+
+      function syncColorPairs(colorInput, textInput) {
+        colorInput.addEventListener('input', () => {
+          textInput.value = colorInput.value;
+        });
+        textInput.addEventListener('input', () => {
+          const val = textInput.value.trim();
+          if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+            colorInput.value = val;
+          }
+        });
+      }
+      syncColorPairs(bgColorInput, bgColorText);
+      syncColorPairs(digitColorInput, digitColorText);
+      syncColorPairs(accentColorInput, accentColorText);
+      syncColorPairs(labelColorInput, labelColorText);
+
+      document.getElementById('applyCustom').addEventListener('click', () => {
+        const bg = bgColorInput.value;
+        const digit = digitColorInput.value;
+        const accent = accentColorInput.value;
+        const label = labelColorInput.value;
+        applyCustomColors(bg, digit, accent, label);
+        saveCustomColors(bg, digit, accent, label);
+      });
+
+      document.getElementById('resetCustom').addEventListener('click', () => {
+        bgColorInput.value = '#141e2d'; bgColorText.value = '#141e2d';
+        digitColorInput.value = '#f0f6ff'; digitColorText.value = '#f0f6ff';
+        accentColorInput.value = '#6ec8ff'; accentColorText.value = '#6ec8ff';
+        labelColorInput.value = '#8a9bb5'; labelColorText.value = '#8a9bb5';
+        applyCustomColors('#141e2d', '#f0f6ff', '#6ec8ff', '#8a9bb5');
+        localStorage.removeItem('timerCustomColors');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (customizerPanel.classList.contains('active') &&
+            !customizerPanel.contains(e.target) &&
+            e.target.id !== 'openCustomizer' &&
+            !e.target.closest('#openCustomizer')) {
+          customizerPanel.classList.remove('active');
+        }
+      });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('time')) {
+        const newTime = parseTimeParam();
+        startTimer(newTime);
+      }
+    })();
+  </script>
+</body>
+</html>

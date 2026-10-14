@@ -90,7 +90,7 @@
             padding: 3px 8px;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: inline-block;
             position: relative;
             user-select: none;
@@ -135,6 +135,8 @@
             text-align: left;
             letter-spacing: 0.3px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            top: 0;
+            left: 0;
         }
 
         .tooltip.show {
@@ -146,7 +148,7 @@
             content: '';
             position: absolute;
             bottom: -6px;
-            left: 24px;
+            left: var(--arrow-left, 24px);
             width: 12px;
             height: 12px;
             background: #1e293b;
@@ -231,11 +233,11 @@
         </div>
 
         <button class="reset-btn" id="resetBtn">Xóa tất cả chú thích</button>
-    </div>
 
-    <div class="tooltip" id="tooltip">
-        <span class="label" id="tooltipLabel"></span>
-        <span id="tooltipContent"></span>
+        <div class="tooltip" id="tooltip">
+            <span class="label" id="tooltipLabel"></span>
+            <span id="tooltipContent"></span>
+        </div>
     </div>
 
     <script>
@@ -260,34 +262,39 @@
             }
 
             function positionTooltip(el) {
-                const containerRect = container.getBoundingClientRect();
-                const rect = el.getBoundingClientRect();
+                const elLeft = el.offsetLeft;
+                const elTop = el.offsetTop;
+                const elWidth = el.offsetWidth;
+                const elHeight = el.offsetHeight;
 
                 const tooltipWidth = tooltip.offsetWidth;
                 const tooltipHeight = tooltip.offsetHeight;
 
-                let left = rect.left - containerRect.left + 10;
-                let top = rect.top - containerRect.top - tooltipHeight - 14;
+                const containerPadding = 45;
+
+                let left = elLeft + elWidth / 2 - tooltipWidth / 2;
+                let top = elTop - tooltipHeight - 14;
 
                 const maxLeft = container.clientWidth - tooltipWidth - 15;
                 if (left > maxLeft) left = maxLeft;
-                if (left < 10) left = 10;
+                if (left < 15) left = 15;
 
                 let arrowTop = false;
                 if (top < 10) {
-                    top = rect.bottom - containerRect.top + 14;
+                    top = elTop + elHeight + 14;
                     arrowTop = true;
                 }
 
                 tooltip.style.left = left + 'px';
                 tooltip.style.top = top + 'px';
 
+                const arrowLeft = elLeft + elWidth / 2 - left - 6;
+                tooltip.style.setProperty('--arrow-left', arrowLeft + 'px');
+
                 if (arrowTop) {
                     tooltip.classList.add('arrow-top');
-                    tooltip.style.setProperty('--arrow-left', (rect.left - containerRect.left - left + rect.width / 2 - 6) + 'px');
                 } else {
                     tooltip.classList.remove('arrow-top');
-                    tooltip.style.setProperty('--arrow-left', (rect.left - containerRect.left - left + rect.width / 2 - 6) + 'px');
                 }
             }
 
@@ -307,10 +314,8 @@
                     updateProgress();
                 }
 
-                requestAnimationFrame(() => {
-                    positionTooltip(el);
-                    tooltip.classList.add('show');
-                });
+                positionTooltip(el);
+                tooltip.classList.add('show');
             }
 
             function closeTooltip() {
@@ -354,10 +359,6 @@
                 if (!e.target.closest('.bptt')) {
                     closeTooltip();
                 }
-            }, { passive: true });
-
-            window.addEventListener('scroll', () => {
-                if (openedEl) positionTooltip(openedEl);
             }, { passive: true });
 
             window.addEventListener('resize', () => {
